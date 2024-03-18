@@ -1,16 +1,9 @@
 package guru.springframework.sfgpetclinic.services;
 
-import java.util.Set;
-
 /**
  * Created by bogdan.kalika@gmail.com
  * Date: 3/18/2024
  */
-public interface Vet {
+public interface Vet extends CrudService<Vet, Long> {
 
-    Vet findById(Long id);
-
-    Vet save(Vet vet);
-
-    Set<Vet> findAll();
 }
