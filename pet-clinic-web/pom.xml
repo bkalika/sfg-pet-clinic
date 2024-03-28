@@ -9,6 +9,15 @@
 
     <artifactId>pet-clinic-web</artifactId>
 
+    <properties>
+        <!-- Web dependencies -->
+        <webjars-bootstrap.version>5.3.2</webjars-bootstrap.version>
+        <webjars-font-awesome.version>4.7.0</webjars-font-awesome.version>
+        <wro4j.version>1.8.0</wro4j.version>
+
+        <libsass.version>0.2.29</libsass.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <artifactId>pet-clinic-data</artifactId>
@@ -33,6 +42,19 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- Webjars -->
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>${webjars-bootstrap.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>font-awesome</artifactId>
+            <version>${webjars-font-awesome.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -41,5 +63,80 @@
     </dependencies>
     <build>
         <finalName>pet-clinic-web</finalName>
+        <plugins>
+<!--            <plugin>-->
+<!--                <groupId>ro.isdc.wro4j</groupId>-->
+<!--                <artifactId>wro4j-maven-plugin</artifactId>-->
+<!--                <version>1.4.1</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>generate-resources</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>fur</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--                <configuration>-->
+<!--                    <wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableManagerFactory</wroManagerFactory>-->
+<!--                    <cssDestinationFolder>${project.build.directory}/classes/static/resources/css</cssDestinationFolder>-->
+<!--&lt;!&ndash;                    <wroFile>${basedir}/src/main/wro/wro.xml</wroFile>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <extraConfigFile>${basedir}/src/main/wro/wro/properties</extraConfigFile>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <contextFolder>${basedir}/src/main/less</contextFolder>&ndash;&gt;-->
+<!--                </configuration>-->
+<!--                <dependencies>-->
+<!--                    <dependency>-->
+<!--                        <groupId>org.webjars.npm</groupId>-->
+<!--                        <artifactId>bootstrap</artifactId>-->
+<!--                        <version>5.3.2</version>-->
+<!--                    </dependency>-->
+<!--                </dependencies>-->
+<!--            </plugin>-->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <?m2e execute onConfiguration,onIncremental?>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.webjars.npm</groupId>
+                                    <artifactId>bootstrap</artifactId>
+                                    <version>${webjars-bootstrap.version}</version>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}/webjars</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.gitlab.haynes</groupId>
+                <artifactId>libsass-maven-plugin</artifactId>
+                <version>${libsass.version}</version>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <?m2e execute onConfiguration,onIncremental?>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <inputPath>${basedir}/src/main/scss/</inputPath>
+                    <outputPath>${basedir}/src/main/resources/static/resources/css/</outputPath>
+                    <includePath>
+                        ${project.build.directory}/webjars/META-INF/resources/webjars/bootstrap/${webjars-bootstrap.version}/scss/</includePath>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>
