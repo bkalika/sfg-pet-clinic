@@ -19,8 +19,11 @@ jobs:
       # Checkout the code as the first step.
       - checkout
       - run:
-          name: "Run integration-test"
-          command: "mvn integration-test"
+          name: "Say hello"
+          command: "echo Hello, World!"
+      - run:
+          name: "Run integration tests"
+          command: "mvn install"
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
