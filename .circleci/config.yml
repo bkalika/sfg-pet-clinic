@@ -25,6 +25,9 @@ jobs:
           name: "Install SkipTests"
           command: "mvn install -DskipTests"
       - run:
+          name: "Run Go offline"
+          command: "mvn dependency:go-offline"
+      - run:
           name: "Run integration tests"
           command: "mvn install"
 
